@@ -4,7 +4,6 @@ from breve.flatten import flatten
 
 class MenuEngine(object):
 	frame = None
-	counter = 0
 
 menuengine = MenuEngine()
 
@@ -66,10 +65,11 @@ class MainFrame( wx.Frame ):
 		name = menu.GetLabel( event.GetId())
 		color = wx.NamedColour(name.lower()) 
 		self.panel.SetBackgroundColour( color )
-		self.panel.Refresh()
 
 if __name__ == "__main__":
 	app = wx.PySimpleApp()
-	MainFrame().Show()
+	f = MainFrame()
+	f.CenterOnScreen()
+	f.Show()
 	app.MainLoop()
 
