@@ -1,0 +1,9 @@
+This is a wxpython program
+
+Purpose:  To use Breve Template Engine to generate wxpython menu related objects
+
+Requirements:  wxpython 2.8.9.1, python 2.5 or +, breve.
+
+License: Apache
+
+Author: Domingo Aguilera ... domingo.aguilera@gmail.com
