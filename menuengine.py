@@ -66,6 +66,7 @@ class MainFrame( wx.Frame ):
 		name = menu.GetLabel( event.GetId())
 		color = wx.NamedColour(name.lower()) 
 		self.panel.SetBackgroundColour( color )
+		self.panel.Refresh()
 
 if __name__ == "__main__":
 	app = wx.PySimpleApp()
