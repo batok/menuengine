@@ -11,6 +11,12 @@ def flatten_menutag(val):
 	msg = flatten_tag( val )
 	label = val.children[0]
 	mf = menuengine.frame
+	enable = val.attrs.get("enable", True )
+	try:
+		if enable == "False":
+			enable = False
+	except:
+		pass
 	try:
 		mf.mb
 	except:
@@ -28,7 +34,10 @@ def flatten_menutag(val):
 		mf.am.AppendSeparator()
 
 	if val.name == "menuitem":
-		m = mf.am.Append( -1 , label) 
+		mi = wx.MenuItem( parentMenu = mf.am, id = wx.ID_ANY, text = label,  kind=wx.ITEM_NORMAL, subMenu = None)
+		
+		m = mf.am.AppendItem( mi ) 
+		mi.Enable( enable )
 		if val.attrs.get("bind", ""):
 			mf.Bind( wx.EVT_MENU, getattr( mf, val.attrs.get("bind")), m )
 
@@ -44,13 +53,14 @@ menubar, menu, menusep, menuitem, menucheck, menuradio = [ custom_tag( x, flatte
 
 class MainFrame( wx.Frame ):
 	def __init__(self):
-		wx.Frame.__init__(self , None, -1, "Testing Menu Engine", size = ( 300,300))
+		wx.Frame.__init__(self , None, -1, "Testing Menu Engine", size = ( 500,400))
 		menuengine.frame = self
 		self.panel = wx.Panel(self, -1)
 		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady" )["Open"], menuitem["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ], 
 			menu["Accounting" , menuitem["Chart of Accounts"], menuitem["General Ledger"] ],
 			menu[ "Accounts Receivable", menuitem["Customers"], menusep[""], menucheck["Round Amounts"], menucheck["Log Activity"], menusep[""], menuradio["Dollars"], menuradio["Euros"]],
-			menu["Color",[ menuitem(bind = "OnColor")[x] for x in "Red Green Blue Yellow Black Grey".split()  ] ]
+			menu["Color",[ menuitem(bind = "OnColor")[x] for x in "Red Green Blue Yellow Black Grey".split()  ] ],
+			menu["Other", menuitem(enable = "False")["Disabled"], menuitem["Enabled"]]
 			]
 		flatten( c )
 
