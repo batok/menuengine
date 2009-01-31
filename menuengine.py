@@ -12,6 +12,11 @@ def flatten_menutag(val):
 	msg = flatten_tag( val )
 	label = val.children[0]
 	mf = menuengine.frame
+	try:
+		mf.mb
+	except:
+		mf.mb = wx.MenuBar()
+		mf.am = wx.Menu()
 
 	if val.name == "menubar":
 		mf.SetMenuBar( mf.mb )
@@ -42,8 +47,6 @@ class MainFrame( wx.Frame ):
 	def __init__(self):
 		wx.Frame.__init__(self , None, -1, "Testing Menu Engine", size = ( 300,300))
 		menuengine.frame = self
-		self.mb = wx.MenuBar()
-		self.am = wx.Menu()
 		self.panel = wx.Panel(self, -1)
 		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady" )["Open"], menuitem["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ], 
 			menu["Accounting" , menuitem["Chart of Accounts"], menuitem["General Ledger"] ],
