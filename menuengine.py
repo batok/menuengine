@@ -3,6 +3,8 @@ from breve.tags import custom_tag, flatten_tag
 from breve.flatten import flatten
 
 class MenuEngine(object):
+	user = ""
+	groups = []
 	frame = None
 
 menuengine = MenuEngine()
@@ -17,6 +19,12 @@ def flatten_menutag(val):
 			enable = False
 	except:
 		pass
+	user = val.attrs.get("user", "")
+	group = val.attrs.get("group", "")
+	if user and user != menuengine.user:
+		return msg
+	if group and group not in menuengine.groups:
+		return msg
 	try:
 		mf.mb
 	except:
@@ -55,13 +63,7 @@ class MainFrame( wx.Frame ):
 	def __init__(self):
 		wx.Frame.__init__(self , None, -1, "Testing Menu Engine", size = ( 500,400))
 		menuengine.frame = self
-		self.panel = wx.Panel(self, -1)
-		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady" )["Open"], menuitem["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ], 
-			menu["Accounting" , menuitem["Chart of Accounts"], menuitem["General Ledger"] ],
-			menu[ "Accounts Receivable", menuitem["Customers"], menusep[""], menucheck["Round Amounts"], menucheck["Log Activity"], menusep[""], menuradio["Dollars"], menuradio["Euros"]],
-			menu["Color",[ menuitem(bind = "OnColor")[x] for x in "Red Green Blue Yellow Black Grey".split()  ] ],
-			menu["Other", menuitem(enable = "False")["Disabled"], menuitem["Enabled"]]
-			]
+		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady" )["Open"], menuitem["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ] 	]
 		flatten( c )
 
 	def OnExit( self, event ):
@@ -70,11 +72,6 @@ class MainFrame( wx.Frame ):
 	def OnNotReady(self, event):
 		wx.MessageBox("Not ready", "Hey" )
 
-	def OnColor(self, event):
-		menu = event.GetEventObject()
-		name = menu.GetLabel( event.GetId())
-		color = wx.NamedColour(name.lower()) 
-		self.panel.SetBackgroundColour( color )
 
 if __name__ == "__main__":
 	app = wx.PySimpleApp()
