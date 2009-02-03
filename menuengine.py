@@ -20,6 +20,7 @@ def flatten_menutag(val):
 	except:
 		pass
 
+	help = val.attrs.get("help", "")
 	user = val.attrs.get("user", "")
 	group = val.attrs.get("group", "")
 	
@@ -32,6 +33,7 @@ def flatten_menutag(val):
 	try:
 		mf.mb
 	except:
+		mf.CreateStatusBar()
 		mf.mb = wx.MenuBar()
 		mf.am = wx.Menu()
 
@@ -46,7 +48,7 @@ def flatten_menutag(val):
 		mf.am.AppendSeparator()
 
 	if val.name == "menuitem":
-		mi = wx.MenuItem( parentMenu = mf.am, id = wx.ID_ANY, text = label,  kind = wx.ITEM_NORMAL, subMenu = None)
+		mi = wx.MenuItem( parentMenu = mf.am, id = wx.ID_ANY, text = label,  help = help , kind = wx.ITEM_NORMAL, subMenu = None)
 		m = mf.am.AppendItem( mi ) 
 		mi.Enable( enable )
 		if val.attrs.get("bind", ""):

@@ -23,8 +23,8 @@ class MainFrame( wx.Frame ):
 		#getting test related groups for user. In real life this comes from a database
 		for group in TEST_GROUPS[ user.username.lower() ]:
 			menuengine.groups.append( group )
-		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady" )["Open"], menuitem["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ], 
-			menu["Accounting" , menuitem["Chart of Accounts"], menuitem["General Ledger"] ],
+		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady", help = "Opening a File" )["Open"], menuitem( help = "Saving a File")["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ], 
+			menu["Accounting" , menuitem( help = "Chart of Accounts crud operations")["Chart of Accounts"], menuitem["General Ledger"] ],
 			menu[ "Accounts Receivable", menuitem["Customers"], menusep[""], menucheck["Round Amounts"], menucheck["Log Activity"], menusep[""], menuradio["Dollars"], menuradio["Euros"]],
 			menu["Color",[ menuitem(bind = "OnColor")[x] for x in "Red Green Blue Yellow Black Grey".split()  ] ],
 			menu["Other", menuitem(enable = "False")["Disabled"], menuitem["Enabled"], menuitem( user = "joe")["Only for Joe"], menuitem( group = "average")["Only for Average group"] ]
