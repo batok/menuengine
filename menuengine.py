@@ -24,11 +24,17 @@ def flatten_menutag(val):
 	user = val.attrs.get("user", "")
 	group = val.attrs.get("group", "")
 	
-	if user and user != menuengine.user:
+	if user and menuengine.user not in [ x.strip() for x in user.split(",")]:
 		return msg
 	
-	if group and group not in menuengine.groups:
-		return msg
+	if group:
+		found = False
+		for g in menuengine.groups:
+			if g in [gr.strip() for gr in group.split(",")]:
+				found = True
+				break
+		if not found:
+			return msg
 	
 	try:
 		mf.mb

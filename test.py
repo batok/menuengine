@@ -27,7 +27,7 @@ class MainFrame( wx.Frame ):
 			menu["Accounting" , menuitem( help = "Chart of Accounts crud operations")["Chart of Accounts"], menuitem["General Ledger"] ],
 			menu[ "Accounts Receivable", menuitem["Customers"], menusep[""], menucheck["Round Amounts"], menucheck["Log Activity"], menusep[""], menuradio["Dollars"], menuradio["Euros"]],
 			menu["Color",[ menuitem(bind = "OnColor")[x] for x in "Red Green Blue Yellow Black Grey".split()  ] ],
-			menu["Other", menuitem(enable = "False")["Disabled"], menuitem["Enabled"], menuitem( user = "joe")["Only for Joe"], menuitem( group = "average")["Only for Average group"] ]
+			menu["Other", menuitem(enable = "False")["Disabled"], menuitem["Enabled"], menuitem( user = "joe,jane")["Only for Joe or Jane"], menuitem( group = "average, any")["Only for Average or Any group"] ]
 			]
 		flatten( c )
 
