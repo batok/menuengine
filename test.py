@@ -1,3 +1,6 @@
+"""
+This script needs python 2.6 or above because uses the "with" statement.
+"""
 import wx
 from  menuengine import *
 import wx.lib.sized_controls as sc
@@ -52,7 +55,7 @@ class NonEmptyValidator( wx.PyValidator):
 	def Validate(self, win):
 		textCtrl = self.GetWindow()
 		text = textCtrl.GetValue()
-		# a warning.  setting SetBackgroundColour in mac os x is useless, because the background color remains the same.
+		# a warning.  setting SetBackgroundColour in mac os x is useless, because the background color of the TextCtrl can not change.
 		if len(text) == 0:
 			wx.MessageBox("{0} can't be empty!".format(self.name), caption="Validation Error")
 			textCtrl.SetBackgroundColour("pink")

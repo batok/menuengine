@@ -19,12 +19,16 @@ def flatten_menutag(val):
 			enable = False
 	except:
 		pass
+
 	user = val.attrs.get("user", "")
 	group = val.attrs.get("group", "")
+	
 	if user and user != menuengine.user:
 		return msg
+	
 	if group and group not in menuengine.groups:
 		return msg
+	
 	try:
 		mf.mb
 	except:
@@ -42,8 +46,7 @@ def flatten_menutag(val):
 		mf.am.AppendSeparator()
 
 	if val.name == "menuitem":
-		mi = wx.MenuItem( parentMenu = mf.am, id = wx.ID_ANY, text = label,  kind=wx.ITEM_NORMAL, subMenu = None)
-		
+		mi = wx.MenuItem( parentMenu = mf.am, id = wx.ID_ANY, text = label,  kind = wx.ITEM_NORMAL, subMenu = None)
 		m = mf.am.AppendItem( mi ) 
 		mi.Enable( enable )
 		if val.attrs.get("bind", ""):
@@ -61,9 +64,9 @@ menubar, menu, menusep, menuitem, menucheck, menuradio = [ custom_tag( x, flatte
 
 class MainFrame( wx.Frame ):
 	def __init__(self):
-		wx.Frame.__init__(self , None, -1, "Testing Menu Engine", size = ( 500,400))
+		wx.Frame.__init__(self , None, -1, "Testing Menu Engine", size = ( 500,400 ))
 		menuengine.frame = self
-		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady" )["Open"], menuitem["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ] 	]
+		c = menubar[  menu[ "File",  menuitem( bind = "OnNotReady" )["Open"], menuitem["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ] ]
 		flatten( c )
 
 	def OnExit( self, event ):
@@ -71,7 +74,6 @@ class MainFrame( wx.Frame ):
 
 	def OnNotReady(self, event):
 		wx.MessageBox("Not ready", "Hey" )
-
 
 if __name__ == "__main__":
 	app = wx.PySimpleApp()
