@@ -1,5 +1,5 @@
 """
-This script needs python 2.6 or above because uses the "with" statement.
+This script needs python 2.6 or above because uses the "with" statement and the new string format function.
 """
 import wx
 from  menuengine import *
@@ -81,12 +81,15 @@ class NonEmptyValidator( wx.PyValidator):
 	def TransferFromWindow( self):
 		tc = self.GetWindow()
 		value = tc.GetValue()
-		setattr( self.data, self.name.lower(), value) 
+		setattr( self.data, self.name.lower(), value) # you can use here a dict to carry on your data 
 		return True
 
 
 class LoginDialog( sc.SizedDialog ):
 	def __init__( self , user=""):
+		"""
+		Look ma, no sizers
+		"""
 		sc.SizedDialog.__init__(self, None, -1 , "Pseudo-Login Dialog", style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER)
 		self.SetExtraStyle(wx.WS_EX_VALIDATE_RECURSIVELY) # Tks to Robin Dunn for his advice on this...when using SizedDialog
 		pane = self.GetContentsPane()
@@ -135,7 +138,7 @@ def dialog( params ):
 if __name__ == "__main__":
 	app = wx.PySimpleApp()
 	user = User()
-	#using "with" which is new in python 2.6 and above.  You submit an object as a carrier of returned data from the Dialog
+	#using "with" which is new in python 2.6 and above.  You submit an object as a carrier of returned data from the Dialog. Also could be a dictionary.
 	with dialog( dict(dialog = LoginDialog, user = user ) ) as val:
 		#in this case for testing purposes trying to validate against to variables. In real life this is against a database
 		if user.username == TEST_USER and user.password == TEST_PASSWORD:

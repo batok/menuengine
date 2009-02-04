@@ -18,7 +18,6 @@ def prebind_wrapper( event = None ):
 	
 	method = getattr( menuengine.frame, met )( event )
 
-
 def flatten_menutag(val):
 	msg = flatten_tag( val )
 	label = val.children[0]
@@ -106,7 +105,7 @@ class MainFrame( wx.Frame ):
 		wx.MessageBox("Not ready", "Hey" )
 
 	def Logger( self, met ):
-		print "I am  here before %s" %  met
+		print "I am  here before running %s" %  met
 
 if __name__ == "__main__":
 	app = wx.PySimpleApp()
