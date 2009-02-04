@@ -5,10 +5,13 @@ import wx
 from  menuengine import *
 import wx.lib.sized_controls as sc
 from contextlib import contextmanager
+import logging
+from datetime import datetime
 
 TEST_USER = "JOE"
 TEST_PASSWORD = "pass"
 TEST_GROUPS = dict( joe = ["average"])
+LOG_FILENAME = "menuengine_logging.txt"
 
 class User(object):
 	username = None
@@ -18,6 +21,7 @@ class MainFrame( wx.Frame ):
 	def __init__(self, user):
 		wx.Frame.__init__(self , None, -1, "Testing Menu Engine", size = ( 500,400))
 		menuengine.frame = self
+		menuengine.prebind = self.Logger # in case you use prebind = "True" as attribute , what it does is run that before calling the bound method
 		self.panel = wx.Panel(self, -1)
 		menuengine.user = user.username.lower()
 		#getting test related groups for user. In real life this comes from a database
@@ -26,10 +30,11 @@ class MainFrame( wx.Frame ):
 		c = menubar[    menu[ "File",  menuitem( bind = "OnNotReady", help = "Opening a File" )["Open"], menuitem( help = "Saving a File")["Save"] , menusep[""],  menuitem( bind = "OnExit" )["Exit"] ], 
 			menu["Accounting" , menuitem( help = "Chart of Accounts crud operations")["Chart of Accounts"], menuitem["General Ledger"] ],
 			menu[ "Accounts Receivable", menuitem["Customers"], menusep[""], menucheck["Round Amounts"], menucheck["Log Activity"], menusep[""], menuradio["Dollars"], menuradio["Euros"]],
-			menu["Color",[ menuitem(bind = "OnColor")[x] for x in "Red Green Blue Yellow Black Grey".split()  ] ],
+			menu["Color",[ menuitem(bind = "OnColor", prebind = "True" )[x] for x in "Red Green Blue Yellow Black Grey".split()  ] ],
 			menu["Other", menuitem(enable = "False")["Disabled"], menuitem["Enabled"], menuitem( user = "joe,jane")["Only for Joe or Jane"], menuitem( group = "average, any")["Only for Average or Any group"] ]
 			]
 		flatten( c )
+		logging.basicConfig( filename = LOG_FILENAME, level = logging.DEBUG, )
 
 	def OnExit( self, event ):
 		self.Close()
@@ -42,6 +47,9 @@ class MainFrame( wx.Frame ):
 		name = menu.GetLabel( event.GetId())
 		color = wx.NamedColour(name.lower()) 
 		self.panel.SetBackgroundColour( color )
+
+	def Logger( self, met ):
+		logging.debug("%s %s is here before %s" % ( datetime.now(), menuengine.user, met))
 
 class NonEmptyValidator( wx.PyValidator):
 	def __init__( self, name, data):

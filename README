@@ -4,7 +4,7 @@ Purpose:  To use Breve Template Engine to generate wxpython menu related objects
 
 Requirements:  wxpython 2.8 or +, python 2.5 or +, breve.
 
-Running :  You can run directly menuengine.py which shows you a simple Frame plus menu stuff.  Also you can run test.py which is a more sophisticated example ( requires python 2.6 or above due to with statement )
+Running :  You can run directly menuengine.py which shows you a simple Frame plus menu stuff.  Also you can run test.py which is a more sophisticated example ( requires python 2.6 or above due to with statement ).  User is joe and password is pass.
 
 License: Apache
 
