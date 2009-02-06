@@ -14,9 +14,10 @@ menuengine = MenuEngine()
 def prebind_wrapper( event = None ):
 	met = menuengine._d_prebinds[ event.GetId() ]
 	if menuengine.prebind:
-		menuengine.prebind( met )
-	
-	method = getattr( menuengine.frame, met )( event )
+		if menuengine.prebind( met ):
+			method = getattr( menuengine.frame, met )( event )
+		else:
+			wx.MessageBox("Bound function or method not called")
 
 def flatten_menutag(val):
 	msg = flatten_tag( val )
@@ -106,6 +107,7 @@ class MainFrame( wx.Frame ):
 
 	def Logger( self, met ):
 		print "I am  here before running %s" %  met
+		return True
 
 if __name__ == "__main__":
 	app = wx.PySimpleApp()

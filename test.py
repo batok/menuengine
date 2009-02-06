@@ -50,6 +50,7 @@ class MainFrame( wx.Frame ):
 
 	def Logger( self, met ):
 		logging.debug("%s %s is here before %s" % ( datetime.now(), menuengine.user, met))
+		return True
 
 class NonEmptyValidator( wx.PyValidator):
 	def __init__( self, name, data):
